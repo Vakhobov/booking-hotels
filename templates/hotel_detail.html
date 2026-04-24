@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Detail</title>
+    <style>
+        .container { max-width: 800px; margin: auto; font-family: sans-serif; }
+        .main-img { width: 100%; height: 400px; object-fit: cover; border-radius: 15px; }
+        .room-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 10px; display: flex; justify-content: space-between; }
+        .price { color: #27ae60; font-weight: bold; font-size: 1.2em; }
+        .back-btn { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/map/" class="back-btn">← Xaritaga qaytish</a>
+        <div id="hotel-content">
+            <p>Yuklanmoqda...</p>
+        </div>
+    </div>
+
+    <script>
+        const hotelId = "{{ hotel_id }}";
+        
+        fetch(`/api/hotels/${hotelId}/`)
+            .then(res => res.json())
+            .then(hotel => {
+                let roomsHtml = hotel.rooms.map(room => `
+                    <div class="room-card">
+                        <div>
+                            <strong>${room.room_type.toUpperCase()}</strong><br>
+                            <small>Sig'imi: ${room.capacity} kishi</small>
+                        </div>
+                        <div class="price">${room.price} so'm</div>
+                    </div>
+                `).join('');
+
+                document.getElementById('hotel-content').innerHTML = `
+                    <img src="${hotel.image}" class="main-img">
+                    <h1>${hotel.name}</h1>
+                    <p>📍 ${hotel.address}</p>
+                    <p>📞 Aloqa: ${hotel.phone}</p>
+                    <hr>
+                    <h3>Mavjud xonalar</h3>
+                    ${roomsHtml.length > 0 ? roomsHtml : '<p>Hozircha xonalar kiritilmagan.</p>'}
+                `;
+            });
+    </script>
+</body>
+</html>
