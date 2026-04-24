@@ -1,7 +1,7 @@
 # hotels/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import HotelViewSet, map_view
+from .views import HotelViewSet, map_view, hotel_detail_page
 
 # Router yaratamiz
 router = DefaultRouter()
@@ -10,7 +10,8 @@ router = DefaultRouter()
 router.register(r'hotels', HotelViewSet, basename='hotel')
 
 urlpatterns = [
-    # Router orqali generatsiya qilingan barcha URL-larni ulaymiz
-    path('', include(router.urls)),
+    # API yo'llari /api/ prefiksi ostida ishlaydi
+    path('api/', include(router.urls)),
     path('map/', map_view, name='hotel-map'),
+    path('hotels/<int:pk>/', hotel_detail_page, name='hotel-detail'),
 ]

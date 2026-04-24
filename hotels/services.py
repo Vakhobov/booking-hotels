@@ -18,10 +18,11 @@ class OSMHotelSyncService:
             "Referer": "https://overpass-turbo.eu/"
         }
 
-    def sync_tashkent_hotels(self):
-        query = """
+    def sync_hotels_by_city(self, city_name="Tashkent"):
+        # Query ichidagi area["name:en"] qismini dinamik qilamiz
+        query = f"""
         [out:json][timeout:60];
-        area["name:en"="Tashkent"]->.searchArea;
+        area["name:en"="{city_name}"]->.searchArea;
         (
           node["tourism"="hotel"](area.searchArea);
           way["tourism"="hotel"](area.searchArea);

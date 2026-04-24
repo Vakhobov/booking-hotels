@@ -7,9 +7,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('hotels.urls')), # hotels ichidagi urls.py ni ulash
+    path('', include('hotels.urls')), # hotels ichidagi web va API yo'llarini ulash
 
-    
     # Swagger UI
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
